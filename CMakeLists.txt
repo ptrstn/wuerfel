@@ -11,10 +11,11 @@ set(BAUDRATE 57600)
 set(CMAKE_CXX_COMPILER avr-g++)
 set(CMAKE_CXX_FLAGS "-mmcu=${MCU}")
 
-add_compile_options("-Wall" "-Wextra" "-Wpedantic" "-Os")
+add_compile_options("-Wall" "-Wextra" "-Wpedantic" "-Wconversion" "-Os" "-std=c++17" "-fconcepts")
 add_definitions("-DF_CPU=16000000UL")
 
 add_executable(${PROJECT_NAME}.elf main.cc)
+target_include_directories(${PROJECT_NAME}.elf PRIVATE include)
 
 add_custom_target(flash ALL
         DEPENDS ${PROJECT_NAME}.elf
