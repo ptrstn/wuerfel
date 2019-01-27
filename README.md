@@ -15,3 +15,10 @@ sudo pacman -S gcc cmake avr-gcc avr-binutils avr-gdb avr-libc avrdude simavr ar
 ```bash
 cmake .
 ```
+
+## Transfer firmware
+
+```bash
+cmake .
+make burn
+```
