@@ -14,21 +14,21 @@ using Portb = Port<BMCPP::AVR::B>;
 using Portc = Port<BMCPP::AVR::C>;
 
 using LedPin = Pin<Portb, 1>;
-using LedPin2 = Pin<Portb, 5>;
-using LedPin3 = Pin<Portc, 0>;
+using LedPin2 = Pin<Portb, 5>; // Build in LED
+using LedPin3 = Pin<Portb, 0>;
 
-using Leds = PinSet<LedPin, LedPin2>;
+using Leds = PinSet<LedPin, LedPin2, LedPin3>;
 
 int main() {
     using namespace std::literals;
-    
+
     Leds::template dir<Output>();
 
     while(true) {
         BMCPP::delay(500_ms);
         Leds::allOn();
-        BMCPP::delay(100_us);
+        BMCPP::delay(500_ms);
         Leds::allOff();
     }
-    
+
 }
