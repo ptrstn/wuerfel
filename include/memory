@@ -16,12 +16,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 #pragma once
 
-#define __STDC_LIMIT_MACROS
-#include <stdint.h>
-#if (__GNUC__ == 7)
-# if (__GNUC_MINOR__ >= 1) 
-#  include <stdint-gcc.h> // Bug in gcc-7.1
-# endif
-#endif
+namespace std {
+    
+    template< class T > struct remove_reference      {
+        typedef T type;
+    };
+    template< class T > struct remove_reference<T&>  {
+        typedef T type;
+    };
+    template< class T > struct remove_reference<T&&> {
+        typedef T type;
+    };
+    
+    template <typename T>
+    constexpr typename remove_reference<T>::type&& move(T&& arg) {
+        return static_cast<typename remove_reference<T>::type&&>(arg);
+    }
+    
+}

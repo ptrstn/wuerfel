@@ -1,0 +1,77 @@
+/*
+ * ++C - C++ introduction
+ * Copyright (C) 2013, 2014, 2015, 2016, 2017 Wilhelm Meier <wilhelm.meier@hs-kl.de>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#pragma once
+
+#include <cstdint>
+#include <type_traits>
+
+namespace std {
+
+    template<typename T>
+    class atomic;
+
+    template<>
+    class atomic<uint8_t> {
+    public:
+        constexpr atomic() = default;
+        atomic(const atomic&) = delete;
+        void operator=(const atomic &) = delete;
+
+        void operator=(uint8_t v) {
+            mValue = v;
+        }
+        void operator++() {
+            ++mValue; // <> read-modify-write: possible lost-update -> DisableInterrupts
+        }
+        operator uint8_t() const {
+            return mValue;
+        }
+    private:
+        volatile uint8_t mValue{0};
+    };
+        
+    // das folgende macht keinen Sinn, weil man damit atomics kopieren könnte
+    
+//    enum class atomic_uint8_t: uint8_t {};
+//    enum class atomic_uint16_t: uint16_t {};
+    
+//    // atomic without volatile doesn't make sense
+//    template<typename A>
+//    requires std::is_volatile<A>::value
+//    void operator++(A& x) {
+//        // <> Read-Modify-Write
+//        typedef typename std::underlying_type<A>::type UT;
+//        x = static_cast<std::remove_volatile_t<A>>(static_cast<UT>(x) + UT(1));
+//    }
+//    template<typename A>
+//    requires std::is_volatile<A>::value
+//    void operator--(A& x) {
+//        // <> Read-Modify-Write
+//        typedef typename std::underlying_type<A>::type UT;
+//        x = static_cast<std::remove_volatile_t<A>>(static_cast<UT>(x) - UT(1));
+//    }
+//    template<typename A>
+//    requires std::is_volatile<A>::value
+//    bool isNull(const A& x) {
+//        typedef typename std::underlying_type<A>::type UT;
+//        return  static_cast<UT>(x) == UT(0);
+//    }
+    
+}
+

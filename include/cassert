@@ -18,10 +18,15 @@
 
 #pragma once
 
-#define __STDC_LIMIT_MACROS
-#include <stdint.h>
-#if (__GNUC__ == 7)
-# if (__GNUC_MINOR__ >= 1) 
-#  include <stdint-gcc.h> // Bug in gcc-7.1
+#ifdef NDEBUG
+# define assert(x) ((void)0)
+#else
+# if defined __cplusplus
+inline void __assert_fail (bool, const char*, unsigned int) noexcept __attribute__ ((__noreturn__));
+
+#  define assert(expr)							\
+     (static_cast <bool> (expr)						\
+      ? void (0)							\
+      : __assert_fail (#expr, __FILE__, __LINE__))
 # endif
 #endif
