@@ -52,6 +52,9 @@ namespace BMCPP {
             static volatile std::byte& get() {
                 return *port()->out;
             }
+            [[nodiscard]] static inline std::byte read() {
+                return *port()->in;
+            }
         };
         
         template<typename Port, uint8_t Number>
@@ -81,6 +84,10 @@ namespace BMCPP {
             }
             static void off() {
                 Port::get() &= ~mask;
+            }
+
+            static inline bool read() {
+                return std::any(Port::read() & mask);
             }
         };
         
