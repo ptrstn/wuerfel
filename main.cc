@@ -1,34 +1,30 @@
-#include <avr/io.h>
-#include <util/delay.h>
-
+#include <cstdint>
 #include "avr/mega328.h"
 #include "avr/util.h"
 
-#include "hal/port.h"
-
-#include <chrono>
+#include "leds/ws2812b.h"
+#include "leds/colors.h"
+#include "leds/neomatrix.h"
+#include "dice/dice.h"
 
 using namespace BMCPP::Hal;
 
-using Portb = Port<BMCPP::AVR::B>;
-using Portc = Port<BMCPP::AVR::C>;
-
-using LedPin = Pin<Portb, 1>;
-using LedPin2 = Pin<Portb, 5>; // Build in LED
-using LedPin3 = Pin<Portb, 0>;
-
-using Leds = PinSet<LedPin, LedPin2, LedPin3>;
+using PortB = Port<BMCPP::AVR::B>;
+using leds_pin = Pin<PortB, 0>;
+using button_pin = Pin<PortB, 1>;
 
 int main() {
+    using namespace BMCPP;
     using namespace std::literals;
 
-    Leds::template dir<Output>();
+    button_pin::template dir<Hal::Input>();
 
-    while(true) {
-        BMCPP::delay(500_ms);
-        Leds::allOn();
-        BMCPP::delay(500_ms);
-        Leds::allOff();
+    using led_dice = LedDice<leds_pin, 6>;
+
+    while (true) {
+        auto button_pressed = button_pin::read();
+        if(button_pressed){
+            led_dice::roll();
+        }
     }
-
 }
