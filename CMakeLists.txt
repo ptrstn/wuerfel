@@ -17,13 +17,13 @@ add_definitions("-DF_CPU=16000000UL")
 add_executable(${PROJECT_NAME}.elf main.cc)
 target_include_directories(${PROJECT_NAME}.elf PRIVATE include)
 
-add_custom_target(flash ALL
+add_custom_target(hex ALL
         DEPENDS ${PROJECT_NAME}.elf
         COMMAND avr-objcopy -j .text -j .data -O ihex  ${PROJECT_NAME}.elf ${PROJECT_NAME}.hex)
 
 set_directory_properties(PROPERTIES
         ADDITIONAL_MAKE_CLEAN_FILES ${PROJECT_NAME}.hex)
 
-add_custom_target(burn
-        DEPENDS flash
+add_custom_target(upload
+        DEPENDS hex
         COMMAND avrdude -p ${MCU} -c ${PROGRAMMER} -b ${BAUDRATE} -P ${PORT} -U flash:w:${PROJECT_NAME}.hex)
