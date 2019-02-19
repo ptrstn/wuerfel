@@ -1,17 +1,17 @@
----
 language: cpp
-os: linux
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - g++-8
-      - gcc-avr
-      - binutils-avr
-      - avr-libc
-env:
-  - CC=gcc-8 && CXX=g++-8
+compiler: gcc
+dist: trusty
+
+before_install:
+  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+  - sudo apt-get update -qq
+
+install:
+  - sudo apt-get install -qq g++-8 gcc-avr binutils-avr avr-libc
+  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 90
+
 script:
+  - sudo unlink /usr/bin/gcc && sudo ln -s /usr/bin/gcc-8 /usr/bin/gcc
+  - gcc --version
   - cmake .
   - make hex
