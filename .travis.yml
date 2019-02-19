@@ -1,8 +1,9 @@
 ---
-language: c
+language: cpp
 before_install:
   - sudo apt-get update -qq
 install:
+  - make get-deps
   - sudo apt-get install -qq gcc-avr binutils-avr avr-libc
 script:
   - cmake .
