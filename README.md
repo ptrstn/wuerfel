@@ -20,5 +20,5 @@ cmake .
 
 ```bash
 cmake .
-make burn
+make upload
 ```
