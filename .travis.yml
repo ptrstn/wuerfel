@@ -1,10 +1,21 @@
 ---
 language: cpp
+os: linux
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-8
+      - gcc-avr
+      - binutils-avr
+      - avr-libc
+env:
+  - CC=gcc-8 && CXX=g++-8
 before_install:
   - sudo apt-get update -qq
 install:
   - make get-deps
-  - sudo apt-get install -qq gcc-avr binutils-avr avr-libc
 script:
   - cmake .
   - make hex
