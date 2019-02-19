@@ -1,0 +1,6 @@
+#include "stdlib.h"
+
+namespace std{
+    using ::rand;
+    using ::srand;
+}
