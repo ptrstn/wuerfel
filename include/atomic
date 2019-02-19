@@ -45,33 +45,5 @@ namespace std {
     private:
         volatile uint8_t mValue{0};
     };
-        
-    // das folgende macht keinen Sinn, weil man damit atomics kopieren könnte
-    
-//    enum class atomic_uint8_t: uint8_t {};
-//    enum class atomic_uint16_t: uint16_t {};
-    
-//    // atomic without volatile doesn't make sense
-//    template<typename A>
-//    requires std::is_volatile<A>::value
-//    void operator++(A& x) {
-//        // <> Read-Modify-Write
-//        typedef typename std::underlying_type<A>::type UT;
-//        x = static_cast<std::remove_volatile_t<A>>(static_cast<UT>(x) + UT(1));
-//    }
-//    template<typename A>
-//    requires std::is_volatile<A>::value
-//    void operator--(A& x) {
-//        // <> Read-Modify-Write
-//        typedef typename std::underlying_type<A>::type UT;
-//        x = static_cast<std::remove_volatile_t<A>>(static_cast<UT>(x) - UT(1));
-//    }
-//    template<typename A>
-//    requires std::is_volatile<A>::value
-//    bool isNull(const A& x) {
-//        typedef typename std::underlying_type<A>::type UT;
-//        return  static_cast<UT>(x) == UT(0);
-//    }
-    
 }
 
