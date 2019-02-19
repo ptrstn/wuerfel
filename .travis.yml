@@ -12,10 +12,6 @@ addons:
       - avr-libc
 env:
   - CC=gcc-8 && CXX=g++-8
-before_install:
-  - sudo apt-get update -qq
-install:
-  - make get-deps
 script:
   - cmake .
   - make hex
